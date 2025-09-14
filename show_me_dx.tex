@@ -1,0 +1,404 @@
+% arara: xelatex
+\documentclass[12pt]{article}
+
+% \usepackage{physics}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\usepackage{verse}
+
+\usepackage{tikzducks}
+
+\usepackage{tikz} % картинки в tikz
+\usepackage{tkz-euclide}
+\usetikzlibrary{shapes, arrows, positioning}
+\usepackage{microtype} % свешивание пунктуации
+
+\usepackage{array} % для столбцов фиксированной ширины
+
+\usepackage{indentfirst} % отступ в первом параграфе
+
+\usepackage{sectsty} % для центрирования названий частей
+\allsectionsfont{\centering}
+
+\usepackage{amsmath, amsfonts, amssymb} % куча стандартных математических плюшек
+
+\usepackage{comment}
+
+\usepackage[top=2cm, left=1.2cm, right=1.2cm, bottom=2cm]{geometry} % размер текста на странице
+
+\usepackage{lastpage} % чтобы узнать номер последней страницы
+
+\usepackage{enumitem} % дополнительные плюшки для списков
+%  например \begin{enumerate}[resume] позволяет продолжить нумерацию в новом списке
+\usepackage{caption}
+
+\usepackage{url} % to use \url{link to web}
+
+
+\newcommand{\smallduck}{\begin{tikzpicture}[scale=0.3]
+    \duck[
+        cape=black,
+        hat=black,
+        mask=black
+    ]
+    \end{tikzpicture}}
+
+\usepackage{fancyhdr} % весёлые колонтитулы
+\pagestyle{fancy}
+\lhead{}
+\chead{Show me $dx$}
+\rhead{}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{tcolorbox} % рамочки!
+
+\usepackage{todonotes} % для вставки в документ заметок о том, что осталось сделать
+% \todo{Здесь надо коэффициенты исправить}
+% \missingfigure{Здесь будет Последний день Помпеи}
+% \listoftodos - печатает все поставленные \todo'шки
+
+
+% более красивые таблицы
+\usepackage{booktabs}
+% заповеди из докупентации:
+% 1. Не используйте вертикальные линни
+% 2. Не используйте двойные линии
+% 3. Единицы измерения - в шапку таблицы
+% 4. Не сокращайте .1 вместо 0.1
+% 5. Повторяющееся значение повторяйте, а не говорите "то же"
+
+
+\setcounter{MaxMatrixCols}{20}
+% by crazy default pmatrix supports only 10 cols :)
+
+
+\usepackage{fontspec}
+\usepackage{libertine}
+\usepackage{polyglossia}
+
+\setmainlanguage{english}
+\setotherlanguages{russian}
+
+% download "Linux Libertine" fonts:
+% http://www.linuxlibertine.org/index.php?id=91&L=1
+% \setmainfont{Linux Libertine O} % or Helvetica, Arial, Cambria
+% why do we need \newfontfamily:
+% http://tex.stackexchange.com/questions/91507/
+% \newfontfamily{\cyrillicfonttt}{Linux Libertine O}
+
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ} % для списков с русскими буквами
+% \setlist[enumerate, 2]{label=\asbuk*),ref=\asbuk*}
+
+%% эконометрические сокращения
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Corr}{\mathbb{C}orr}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\col}{col}
+\DeclareMathOperator{\row}{row}
+
+\let\P\relax
+\DeclareMathOperator{\P}{\mathbb{P}}
+
+\DeclareMathOperator{\E}{\mathbb{E}}
+% \DeclareMathOperator{\tr}{trace}
+\DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\mgf}{mgf}
+
+\DeclareMathOperator{\Convex}{Convex}
+\DeclareMathOperator{\plim}{plim}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\scalp}{\langle}{\rangle}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cF}{\mathcal{F}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\hb}{\hat{\beta}}
+\newcommand{\dPois}{\mathrm{Pois}}
+
+
+% arc, https://tex.stackexchange.com/questions/96680/
+\makeatletter
+\DeclareFontFamily{U}{tipa}{}
+\DeclareFontShape{U}{tipa}{m}{n}{<->tipa10}{}
+\newcommand{\arc@char}{{\usefont{U}{tipa}{m}{n}\symbol{62}}}%
+
+\newcommand{\arc}[1]{\mathpalette\arc@arc{#1}}
+
+\newcommand{\arc@arc}[2]{%
+  \sbox0{$\m@th#1#2$}%
+  \vbox{
+    \hbox{\resizebox{\wd0}{\height}{\arc@char}}
+    \nointerlineskip
+    \box0
+  }%
+}
+\makeatother
+
+
+
+
+% dot of variable size, from
+% https://tex.stackexchange.com/questions/389238/is-there-a-black-dot-symbol-that-i-can-use
+\newcommand\vardot[1][.4]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
+% dot above equality sign for Newton style
+\newcommand{\ulteq}{\mathrel{\overset{\vardot}{=}}}
+\newcommand{\ultsim}{\mathrel{\overset{\vardot}{\sim}}}
+%\newcommand{\ulteq}{\mathrel{\overset{\infty}{=}}}
+%\newcommand{\ultsim}{\mathrel{\overset{\infty}{\sim}}}
+
+
+\newcommand{\angl}[1]{\widehat{#1}}
+% \newcommand{\angl}[1]{\angle{#1}}
+
+\begin{document}
+
+
+\begin{verse}
+    \begin{flushright}
+fff
+    \end{flushright}
+\end{verse}
+
+
+\begin{tcolorbox}[colback=yellow!50!red!25!white]
+smth
+\end{tcolorbox}
+
+Для малых величин лучше использовать не $\Delta$, а $u$, $h$, $t$, \ldots{ }, чтобы избежать путаницы с треугольниками в геометрических пояснениях.
+
+Обозначение для угла, $\angl{ABC}$.
+
+\section*{На отрезке}
+
+Десять лилипутов прыгают в длину независимо друг от друга на равномерное расстояние от $0$ до $1$,
+обозначим их результаты прыжков как $X_1$, $X_2$, \dots, $X_{10}$.
+Упорядочим эти результаты по возрастанию и получим $X_{(1)} \leq X_{(2)} \leq \dots \leq X_{(10)}$.
+
+Найдите вероятность того, что результат бронзового призёра $X_{(3)}$ лежит в отрезке $[x; x+h]$ с точностью до $o(h)$.
+
+
+\begin{tikzpicture}
+  \tkzDefPoints{0/0/O, 6/0/X, 7/0/XH, 10/0/U}
+  \tkzDrawSegment(O, U)
+  %\tkzMarkSegment[pos=0, mark=|](O,U)
+  %\tkzMarkSegment[pos=1, mark=x](O,U)
+  \tkzDrawPoints(X, XH, O, U)
+  \tkzLabelPoint[below](O){$0$\vphantom{$h$}}
+  \tkzLabelPoint[below](X){$x$\vphantom{$h$}}
+  \tkzLabelPoint[below](XH){$x+h$}
+  \tkzLabelPoint[below](U){$1$\vphantom{$h$}}
+\end{tikzpicture}
+
+Для любой отдельной величины $X_i$ выполнено предельное равенство
+\[
+\P(X_i \in [x+h; 1]) \ulteq \P(X_i \in [x; 1]).
+\]
+Более того, если мы выберем произвольную точку $a$ на отрезке $[x; x+h]$, то в силу неравенства
+\[
+\P(X_i \in [x+h; 1]) \leq \P(X_i \in [a; 1]) \leq \P(X_i \in [x; 1])
+\]
+выполнено и предельное равенство
+\[
+\P(X_i \in [a; 1]) \ulteq \P(X_i \in [x; 1]).
+\]
+Вероятность $\P(X \in [x; 1])$ имеет более простую формулу, так как зависит только от $x$, поэтому мы будем использовать её.
+
+Чтобы бронзовый призёр прыгнул на длину от $x$ до $x+h$ два прыгуна должны прыгнуть на меньшую длину, а семь оставшихся — на большую длину.
+Мультиномиальный коэффициент $10!/(2! \, 1! \, 7!)$ показывает число способов разделить всех десятырех лилипутов на двоих с коротким прыжком, одного особого и семерых с длинным прыжком.
+Следовательно,
+\[
+\P(X_{(3)} \in [x+h; 1]) \ulteq \frac{10!}{2! \, 1! \, 7!} \cdot \P(X_1, X_2 \leq [0; x]) \cdot \P(X_3 \in [x; x+h]) \cdot \P(X_4, X_5, \dots, X_{10} \in [x; 1]). 
+\]
+\[
+\P(X_{(3)} \in [x+h; 1]) \ulteq \frac{10!}{2! \, 1! \, 7!} \cdot  h x^2 (1 - x)^7.
+\]
+Извлекаем функцию плотности из вероятности,
+\[
+f_{X_{(3)}}(x) = \begin{cases}
+  \frac{10!}{2! \, 1! \, 7!} x^2 (1 - x)^7, \text{ если } x \in [0;1], \\
+  0, \text{ иначе.} 
+\end{cases}
+\]
+
+
+
+\section*{С окружностью}
+
+Слепой Пью стоит в начале координат. 
+Он стреляет один раз в случайном равномерно распределённом направлении от $0$ до $\pi$.
+
+Стена проходит вдоль прямой $y = 1$.
+Случайная величина $X$ — абсцисса точки попадания пули в стену. 
+
+\begin{enumerate}
+    \item Найдите вероятность $\P(X \in [x; x+ h])$ с точностью до $o(h)$.
+    \item Найдите функцию плотности величины $X$. 
+\end{enumerate}
+
+
+Решение.
+
+
+\begin{tikzpicture}
+
+    % Angles A & B (can be modified)
+    \def\AngleA{20} \def\AngleB{30}
+
+    % Base points
+    \tkzDefPoints{0/0/A,11/0/F,0/6/O,6.5/0/C}
+
+
+    \tkzDefLine[orthogonal=through F](A,F) \tkzGetPoint{d}
+    \tkzDefLine[orthogonal=through O](A,O) \tkzGetPoint{e}
+    \tkzInterLL(O,e)(F,d) \tkzGetPoint{D}
+    \tkzDrawSegment(A,D)
+
+    \tkzDefLine[orthogonal=through C](A,F) \tkzGetPoint{b}
+    \tkzInterLL(C,b)(O,D) \tkzGetPoint{B}
+    \tkzDrawSegment(A,B)
+
+
+    \tkzDrawSegment[dashed](A,O)
+    \tkzDrawSegment[dashed](C,B)
+    \tkzDrawSegment[dashed](F,D)
+
+    \tkzDrawArc[rotate](A,O)(-90)
+
+    \tkzInterLC(A,D)(A,O) \tkzGetSecondPoint{Ep}
+    \tkzInterLC(A,B)(A,O) \tkzGetSecondPoint{Bo}
+    
+    \tkzDefLine[orthogonal=through Ep](A,D) \tkzGetPoint{bp}
+    \tkzInterLL(Ep,bp)(A,B) \tkzGetPoint{Bp}
+
+    \tkzDrawSegment(Ep,Bp)
+
+
+    \tkzDefLine[orthogonal=through B](A,D) \tkzGetPoint{e}
+    \tkzInterLL(B,e)(A,D) \tkzGetPoint{E}
+
+    \tkzDrawSegment(E,B)
+
+    \tkzDrawLine[add=0.1 and 0.1](A,F)
+    \tkzDrawLine[add=0.1 and 0.1](O,D)
+
+    \tkzLabelPoints[below](A,F,C,E)
+    \tkzLabelPoint[below](Ep){$E_1$}
+    \tkzLabelPoint[above](Bp){$B_1$}
+    \tkzLabelPoint[left](Bo){$B_0$}
+    \tkzLabelPoints[above](O,D,B)
+
+    \tkzDrawPoints(A,F,O,D,C,B,Ep,Bp,Bo,E)
+
+    \tkzMarkRightAngles[fill=blue!10,size=.25,draw](A,F,D B,E,D Bp,Ep,D)
+    \tkzFillAngle[fill=orange!10,size=0.35,draw](F,A,D)
+    \tkzFillAngle[fill=orange!10,size=0.35,draw](B,D,E)
+
+    
+\end{tikzpicture}
+
+Найдём вероятность $\P(X \in [x; x + h])$.
+Для этого мы от длины отрезка $BD$ перейдём к длине дуги $B_0 E_1$.
+
+Треугольники $\triangle BED$ и $\triangle AFD$ подобны, поэтому 
+\[
+BE = BD \cdot \frac{DF}{AD} = h \frac{1}{\sqrt{1^2 + (x+h)^2}} \ulteq \frac{h}{\sqrt{1 + x^2}}.
+\]
+Треугольники $\triangle ABE$ и $\triangle AB_1E_1$ подобны, поэтому 
+\[
+B_0 E_1 \ulteq B_1E_1 = BE \cdot \frac{AB_1}{ AB} \ulteq  BE \cdot \frac{AB_0}{ AB} = \frac{BE}{\sqrt{1 + x^2}}
+\]
+Следовательно, $B_0E_1 \ulteq h / (1 + x^2)$, и искомая вероятность предельно равна
+\[
+\P(X \in [x; x + h]) = \frac{B_0E_1}{\pi} \ulteq \frac{h}{\pi (1 + x^2)}.
+\]
+Функция плотности равна 
+\[
+f(x) = \frac{1}{\pi(1 + x^2)}.
+\]
+
+
+
+
+Илон Маск гоняет на Cybertruck по окружности единичного радиуса с центром в начале координат.
+В случайный момент времени момент времени он останавливается, точка его остановки равномерно распределена на окружности.
+Обозначим абсциссу точки остановки с помощью $X$.
+\begin{enumerate}
+  \item Найдите вероятность $\P(X \in [x; x+ h])$ с точностью до $o(h)$ из геометрических соображений.
+  \item Найдите функцию плотности и величины $X$.
+\end{enumerate}
+
+  \begin{tikzpicture}
+    \tkzInit[xmax=5,ymax=5] % limits the size of the axes
+    \tkzDrawX[>=latex]
+    \tkzDrawY[>=latex]
+    \tkzDefPoint(0,0){O}
+    \tkzDefPoint(5,-0.5){Ab}
+    \tkzDefPoint(3,0){X}
+    \tkzDefPoint(0,3){Y}
+    \tkzDefPoint(-0.5,5){Ac}
+    \tkzDefPoint(2,3){Aprec}
+    \tkzInterLC(O,Aprec)(O,Ab) \tkzGetPoints{antiA}{A}
+    \tkzDefPoint(3,2){Bprec}
+    \tkzInterLC(O,Bprec)(O,Ab) \tkzGetPoints{antiB}{B}
+
+    \tkzDefPointBy[projection = onto O--X](A)\tkzGetPoint{D}
+    \tkzDefPointBy[projection = onto O--X](B)\tkzGetPoint{E}
+    \tkzDefPointBy[projection = onto O--Y](A)\tkzGetPoint{F}
+    \tkzInterLL(A,F)(E,B) \tkzGetPoint{C}
+
+    \tkzLabelPoints(O,A,B,D,E,C)
+    \tkzDrawPoints(O,A,B,D,E,C)
+    \tkzDrawSegment(A,B)
+    \tkzDrawSegment(A,D)
+    \tkzDrawSegment(B,E)
+    \tkzDrawSegment(O,A)
+    \tkzDrawSegment(O,B)
+    \tkzDrawSegment(A,C)
+    \tkzDrawSegment(C,B)
+
+
+    \tkzDrawArc(O,Ab)(Ac)
+
+  \end{tikzpicture}
+  Искомая вероятность равна длине дуги $\arc{AB}$, делённой на $\pi$.
+
+  Заметим, что $\angl{DAB} + \angl{BAC} = \pi/2$, $\angl{OAD} + \angl{DAB} \ulteq \pi/2$.
+  Следовательно, $\angl{BAC} \ulteq \angl{OAD}$ и два треугольника предельно подобны, $\triangle ACB \ultsim \triangle ADO$.
+  Из подобия следует, что $AB/AO \ulteq AC/AD$ и, следовательно,
+  \[
+  \P(X \in [x; x + h]) = \frac{\arc{AB}}{\pi} \ulteq \frac{AB}{\pi}  \ulteq \frac{AO \cdot AC/AD}{\pi} = \frac{h}{\pi\sqrt{1 - x^2}}.
+  \] 
+  Функция плотности равна
+  \[
+  f(x) = \begin{cases}
+    \frac{1}{\pi\sqrt{1 - x^2}}, x \in [-1;1] \\
+    0, \text{ иначе}.
+  \end{cases}
+  \]
+
+
+
+
+
+\end{document}
+
